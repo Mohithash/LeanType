@@ -995,7 +995,9 @@ public final class KeyboardSwitcher implements KeyboardState.SwitchActions {
     }
 
     public boolean isShowingStripContainer() {
-        return mStripContainer.isShown();
+        // Null until onCreateInputView. R8 inlines this into
+        // LatinIME.onUpdateSelection, which then NPEs on View.isShown().
+        return mStripContainer != null && mStripContainer.isShown();
     }
 
     public EmojiPalettesView getEmojiPalettesView() {
